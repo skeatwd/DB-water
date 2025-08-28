@@ -4,14 +4,17 @@ import pandas as pd
 from datetime import datetime
 
 
-
-
 app = Dash(__name__)
 
 app.layout = html.Div([
-    html.Button('+', id='append-water', n_clicks=0),
-    html.Div(id='output', children='Нажмите на плючик, чтобы добавить 250мл')
+    html.H1(children='Отслеживание выпитой за день воды'),
+    html.Button(
+        '+', 
+        id='append-water', 
+        n_clicks=0,
+    )
 ])
+
 
 @callback(
     Output('output', 'children'),
@@ -27,7 +30,7 @@ def append_water(n_clicks):
         data = pd.concat([data, new_entry], ignore_index=True)
         data.to_csv('water_instake.csv', index=False)
         ml = data['amount_ml'].sum()
-    
+        
 
     return 'Было добавлено 250 мл воды. Выпито: {} мл'.format(ml)
 
